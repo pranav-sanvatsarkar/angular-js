@@ -4,23 +4,43 @@
     <meta charset="utf-8" />
     <script src="vendor_js/angular/angular.min.js"></script>
     <script>
-        /*
-        angular.module('crudApp', []);
+        var crudApp = angular.module('crudApp', []);
         crudApp.controller('crudAppController', function ($scope) {
-            $scope.firstName = 'Pranav';
-            $scope.lastName = 'Sanvatsarkar';
+            $scope.lstItems = [];
+            $scope.listItem = function (strFirstName, strLastName, intAge) {
+                var listItemObj = {
+                    firstName : strFirstName,
+                    lastName : strLastName,
+                    age : intAge
+                };
+                return listItemObj;
+            }
+            $scope.addListItem = function () {
+                var empObj = $scope.listItem($scope.firstName, $scope.lastName, $scope.age);
+                console.log($scope.lstItems.length);
+                $scope.lstItems[$scope.lstItems.length] = empObj;
+                $scope.firstName = null;
+                $scope.lastName = null;
+                $scope.age = null;
+            }
         });
-        */
     </script>
     <title></title>
 </head>
 <body>
-    <div ng-app="crudApp" ng-init="name='pronow'">
-        <p>Name : <input type="text" ng-model="name"></p>
-        <p>Name : <input type="text" ng-model="5+17"></p>
-        <h1>Hello {{name}}</h1>
-        <p ng-bind="name"></p>
-        <p> Sum of 5 + 17 will be = {{ 5 + 17 }}</p>
+    <div ng-app="crudApp" ng-controller="crudAppController">
+        <label>First Name</label>
+        <input type="text" ng-model="firstName"/>
+        <br/>
+        <label>Last Name</label>
+        <input type="text" ng-model="lastName" />
+        <br />
+        <label>Age</label>
+        <input type="number" ng-model="age" />
+        <hr>
+        <input type="button" value="Add to List" ng-click="addListItem()"/>
+        <hr>
+        <p>{{lstItems}}</p>
     </div>
 </body>
 </html>
