@@ -3,11 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <script src="vendor_js/angular/angular.min.js"></script>
+    <link rel="stylesheet" href="vendor_css/css/bootstrap.min.css"/>
     <script>
         var crudApp = angular.module('crudApp', []);
+
         crudApp.controller('crudAppController', function ($scope) {
             $scope.lstItems = [];
-            $scope.listItem = function (strFirstName, strLastName, intAge) {
+            $scope.getListItemRecord = function (strFirstName, strLastName, intAge) {
                 var listItemObj = {
                     firstName : strFirstName,
                     lastName : strLastName,
@@ -16,9 +18,12 @@
                 return listItemObj;
             }
             $scope.addListItem = function () {
-                var empObj = $scope.listItem($scope.firstName, $scope.lastName, $scope.age);
+                var empObj = $scope.getListItemRecord($scope.firstName, $scope.lastName, $scope.age);
                 console.log($scope.lstItems.length);
                 $scope.lstItems[$scope.lstItems.length] = empObj;
+                $scope.resetForm();
+            }
+            $scope.resetForm = function () {
                 $scope.firstName = null;
                 $scope.lastName = null;
                 $scope.age = null;
@@ -28,19 +33,42 @@
     <title></title>
 </head>
 <body>
-    <div ng-app="crudApp" ng-controller="crudAppController">
-        <label>First Name</label>
-        <input type="text" ng-model="firstName"/>
-        <br/>
-        <label>Last Name</label>
-        <input type="text" ng-model="lastName" />
-        <br />
-        <label>Age</label>
-        <input type="number" ng-model="age" />
+    <div ng-app="crudApp" ng-controller="crudAppController" style="width:60%;margin-left:20%;margin-top:5%">
+        <div class="form-group">
+            <label for="email">First Name</label>
+            <input type="text" class="form-control" id="email" ng-model="firstName">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Last Name</label>
+            <input type="text" class="form-control" id="pwd" ng-model="lastName">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Age</label>
+            <input type="number" class="form-control" id="pwd" ng-model="age">
+        </div>
+        <input type="button" value="Add to List" ng-click="addListItem()" class="btn btn-primary" />
+        <input type="button" value="Reset" ng-click="resetForm()" class="btn btn-danger" />
+
+        
         <hr>
-        <input type="button" value="Add to List" ng-click="addListItem()"/>
-        <hr>
-        <p>{{lstItems}}</p>
+        <p>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="emp in lstItems">
+                    <tr>
+                        <td>{{emp.firstName}}</td>
+                        <td>{{emp.lastName}}</td>
+                        <td>{{emp.age}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p>
     </div>
 </body>
 </html>
